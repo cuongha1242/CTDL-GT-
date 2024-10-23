@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿#include<iostream>
+=======
+#include<iostream>
+>>>>>>> 7913d4372dfd093295f5a8c8fb729db351f1da50
 #include <vector>
 using namespace std;
 
