@@ -1,65 +1,41 @@
-﻿#include<math.h>
-#include<iostream>
+﻿#include<iostream>
+#include <vector>
 using namespace std;
 
-
-
-int songuyento(int n) {
-	for (int i = 2; i <= sqrt(n); i++) {
-		if (n % i == 0) {
-			return 0;
-		}
-	}
-	return 1;
+void swap(int& a, int & b) {
+	int temp = a;
+	a = b;
+	b = temp;
 }
 
 
+void selectionSort(int arr[], int n) {
+	int i, j, min_indx;
 
-int soNUAnguyento(int n) {
-	for (int i = 2; i < n; i++) {
-		for (int j = 2; j < n; j++) {
-			if (songuyento(i) && songuyento(j) == 1) {
-				if (i * j == n) {
-					return 1;
-				}
-			}
-		}
+	for (i = 0; i < n - 1;i++)
+	{
+		min_indx = i;
+		for (j = i + 1; j < n;j++)
+			if (arr[j] < arr[min_indx])
+				min_indx = j;
+		swap(arr[min_indx], arr[i]);
+
 	}
-	return 0;
 }
+
+// đỏ = 0 
+// trắng = 1
+// xanh = 2
+
 int main() {
-	int a[100], blumNumber[100];
-	int count = 0;
-	for (int i = 0;i < 100;i++) {
-		a[i] = i + 1;
+	int arr[] = {2,0,2,0,0,1,0,2,1};
+	int n = sizeof(arr) / sizeof(arr[0]);
+	selectionSort(arr, n);
+	cout << "Consult: \n";
+	for (int i = 0; i < n;i++) {
+		cout << arr[i] << " ";
 	}
-	for (int i = 0;i < 100;i++) {
-		if (soNUAnguyento(a[i]) == 1) {
-			blumNumber[count++] = a[i];
-		}
-	}
-	for (int i = 0;i < count;i++) {
-		for (int j = 0;j < count;j++) {
-			int sum = blumNumber[j] + blumNumber[i];
-			for (int k = 0;k < count;k++) {
-				if (sum == blumNumber[k]) { 
-					cout << "(" << blumNumber[i] << ", " << blumNumber[j] << ")" << endl;
-				}
-			}
-		}
-	}
-	int M;
-	bool check = false;
-	cout << "nhap M:";
-	cin >> M;
-	for (int i = 0;i < count;i++) {
-		if (M == blumNumber[i]) {
-			check = true;
-		}
-	}
-	if (check == true) {
-		cout << "M co ton tai trong day Blum" << endl;
-	}
-	else cout << "khong ton tai";
+	cout << endl;
+	return 0;
 }
 
