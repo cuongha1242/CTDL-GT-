@@ -1,0 +1,99 @@
+struct Node {
+    int data; // Dữ liệu lưu trữ tại node
+    Node *left; // Con trái
+    Node *right; // Con phải
+};
+void setAttribute(Node* node, int newAttribute); // Cài đặt thuộc tính cho node
+Node* createNode(int data); // Tạo một node mới
+Node* insertNode(Node* root, int data); // Thêm node vào cây
+bool isEmpty(Node* root); // Kiểm tra cây có rỗng không
+void preOrderTraversal(Node* root); // Duyệt trước
+void inOrderTraversal(Node* root); // Duyệt giữa
+void postOrderTraversal(Node* root); // Duyệt sau
+
+// Cài đặt thuộc tính cho node (ở đây đơn giản là thay đổi giá trị data)
+void setAttribute(Node* node, int newAttribute) {
+    node->data = newAttribute;
+}
+
+// Tạo một node mới
+Node* createNode(int data) {
+    Node* newNode = new Node;
+    newNode->data = data;
+    newNode->left = newNode->right = NULL;
+    return newNode;
+}
+
+// Kiểm tra cây có rỗng không
+bool isEmpty(Node* root) {
+    return root == NULL;
+}
+
+// Thêm node vào cây (thêm vào vị trí phù hợp để duy trì tính chất cây tìm kiếm nhị phân)
+Node* insertNode(Node* root, int data) {
+    if (root == NULL) {
+        return createNode(data);
+    }
+    if (data < root->data) {
+        root->left = insertNode(root->left, data);
+    } else if (data > root->data) {
+        root->right = insertNode(root->right, data);
+    }
+    return root;
+}
+
+// Duyệt trước
+void preOrderTraversal(Node* root) {
+    if (root != NULL) {
+        cout << root->data << " ";
+        preOrderTraversal(root->left);
+        preOrderTraversal(root->right);
+    }
+}
+
+// Duyệt giữa
+void inOrderTraversal(Node* root) {
+    if (root != NULL) {
+        inOrderTraversal(root->left);
+        cout << root->data << " ";
+        inOrderTraversal(root->right);
+    }
+}
+
+// Duyệt sau
+void postOrderTraversal(Node* root) {
+    if (root != NULL) {
+        postOrderTraversal(root->left);
+        postOrderTraversal(root->right);
+        cout << root->data << " ";
+    }
+}
+
+
+int main() {
+    Node* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 70);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    cout << "Duyet truoc: ";
+    preOrderTraversal(root);
+    cout << endl;
+
+    cout << "Duyet giua: ";
+    inOrderTraversal(root);
+    cout << endl;
+
+    cout << "Duyet sau: ";
+    postOrderTraversal(root);
+    cout << endl;
+
+    // Cài đặt thuộc tính cho node có giá trị 30
+    setAttribute(findNode(root, 30), 100); // Hàm findNode chưa được viết, bạn có thể tự bổ sung
+
+    return 0;
+}
