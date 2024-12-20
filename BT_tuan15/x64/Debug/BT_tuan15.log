@@ -1,0 +1,3 @@
+﻿  Source.cpp
+E:\Downloads\CTDL&GT\BT_tuan15\Source.cpp(21,31): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  BT_tuan15.vcxproj -> E:\Downloads\CTDL&GT\BT_tuan15\x64\Debug\BT_tuan15.exe
