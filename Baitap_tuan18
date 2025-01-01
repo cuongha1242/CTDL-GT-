@@ -1,0 +1,174 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+using namespace std;
+
+// Đồ thị sử dụng ma trận lân cận
+class GraphMatrix {
+private:
+    vector<vector<int>> adjMatrix;
+    int vertices;
+
+public:
+    GraphMatrix(int v) {
+        vertices = v;
+        adjMatrix.resize(v, vector<int>(v, 0));
+    }
+
+    void addEdge(int u, int v) {
+        adjMatrix[u][v] = 1;
+        adjMatrix[v][u] = 1; // Nếu là đồ thị vô hướng
+    }
+
+    void BFS(int start) {
+        vector<bool> visited(vertices, false);
+        queue<int> q;
+
+        q.push(start);
+        visited[start] = true;
+
+        cout << "BFS (Matrix): ";
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            cout << u << " ";
+
+            for (int v = 0; v < vertices; ++v) {
+                if (adjMatrix[u][v] == 1 && !visited[v]) {
+                    q.push(v);
+                    visited[v] = true;
+                }
+            }
+        }
+        cout << endl;
+    }
+
+    void DFS(int start) {
+        vector<bool> visited(vertices, false);
+        stack<int> s;
+
+        s.push(start);
+
+        cout << "DFS (Matrix): ";
+        while (!s.empty()) {
+            int u = s.top();
+            s.pop();
+
+            if (!visited[u]) {
+                cout << u << " ";
+                visited[u] = true;
+            }
+
+            for (int v = vertices - 1; v >= 0; --v) {
+                if (adjMatrix[u][v] == 1 && !visited[v]) {
+                    s.push(v);
+                }
+            }
+        }
+        cout << endl;
+    }
+};
+
+// Đồ thị sử dụng danh sách lân cận
+class GraphList {
+private:
+    vector<vector<int>> adjList;
+    int vertices;
+
+public:
+    GraphList(int v) {
+        vertices = v;
+        adjList.resize(v);
+    }
+
+    void addEdge(int u, int v) {
+        adjList[u].push_back(v);
+        adjList[v].push_back(u); // Nếu là đồ thị vô hướng
+    }
+
+    void BFS(int start) {
+        vector<bool> visited(vertices, false);
+        queue<int> q;
+
+        q.push(start);
+        visited[start] = true;
+
+        cout << "BFS (List): ";
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            cout << u << " ";
+
+            for (int v : adjList[u]) {
+                if (!visited[v]) {
+                    q.push(v);
+                    visited[v] = true;
+                }
+            }
+        }
+        cout << endl;
+    }
+
+    void DFS(int start) {
+        vector<bool> visited(vertices, false);
+        stack<int> s;
+
+        s.push(start);
+
+        cout << "DFS (List): ";
+        while (!s.empty()) {
+            int u = s.top();
+            s.pop();
+
+            if (!visited[u]) {
+                cout << u << " ";
+                visited[u] = true;
+            }
+
+            for (int v = adjList[u].rbegin(); v != adjList[u].rend(); ++v) {
+                if (!visited[*v]) {
+                    s.push(*v);
+                }
+            }
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    // Số đỉnh của đồ thị
+    int vertices = 7;
+
+    // Ma trận lân cận
+    GraphMatrix graphMatrix(vertices);
+    graphMatrix.addEdge(0, 1);
+    graphMatrix.addEdge(0, 2);
+    graphMatrix.addEdge(0, 3);
+    graphMatrix.addEdge(1, 4);
+    graphMatrix.addEdge(2, 4);
+    graphMatrix.addEdge(3, 5);
+    graphMatrix.addEdge(4, 6);
+    graphMatrix.addEdge(5, 6);
+
+    // Duyệt BFS và DFS trên ma trận lân cận
+    graphMatrix.BFS(0);
+    graphMatrix.DFS(0);
+
+    // Danh sách lân cận
+    GraphList graphList(vertices);
+    graphList.addEdge(0, 1);
+    graphList.addEdge(0, 2);
+    graphList.addEdge(0, 3);
+    graphList.addEdge(1, 4);
+    graphList.addEdge(2, 4);
+    graphList.addEdge(3, 5);
+    graphList.addEdge(4, 6);
+    graphList.addEdge(5, 6);
+
+    // Duyệt BFS và DFS trên danh sách lân cận
+    graphList.BFS(0);
+    graphList.DFS(0);
+
+    return 0;
+}
